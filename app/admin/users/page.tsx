@@ -49,7 +49,7 @@ export default async function AdminUsersPage() {
                         <RoleBadge role={user.role} />
                       </TableCell>
                       <TableCell>
-                        <Badge variant={user.is_active ? 'success' : 'danger'}>
+                        <Badge variant={user.is_active ? 'profit' : 'loss'}>
                           {user.is_active ? 'Active' : 'Inactive'}
                         </Badge>
                       </TableCell>

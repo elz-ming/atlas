@@ -160,7 +160,7 @@ export interface AuditLog {
   action: string;
   resource_type: string;
   resource_id: string | null;
-  metadata: Record<string, any> | null;
+  metadata: Record<string, unknown> | null;
   ip_address: string | null;
   user_agent: string | null;
   created_at: string;

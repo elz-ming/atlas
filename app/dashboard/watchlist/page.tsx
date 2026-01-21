@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,18 +9,22 @@ import { Modal } from '@/components/ui/modal';
 import { EmptyState, EmptyIcon } from '@/components/shared/EmptyState';
 import { isValidSymbol, formatDateTime } from '@/lib/utils';
 
+type Watchlist = {
+  id: string;
+  name: string;
+  symbols: string[];
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
 export default function WatchlistPage() {
-  const [watchlists, setWatchlists] = useState<any[]>([]);
+  // Mock data - in a real app, fetch from Supabase in a useEffect or React Query
+  const [watchlists, setWatchlists] = useState<Watchlist[]>([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [newWatchlistName, setNewWatchlistName] = useState('');
   const [selectedWatchlist, setSelectedWatchlist] = useState<string | null>(null);
   const [newSymbol, setNewSymbol] = useState('');
-
-  // Mock data for now
-  useEffect(() => {
-    // In a real app, fetch from Supabase here
-    setWatchlists([]);
-  }, []);
 
   const handleCreateWatchlist = () => {
     if (!newWatchlistName) return;

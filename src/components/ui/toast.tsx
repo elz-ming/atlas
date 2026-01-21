@@ -86,7 +86,7 @@ export function ToastContainer() {
 
   // Expose global toast function
   React.useEffect(() => {
-    (window as any).showToast = (message: string, type: ToastMessage['type'] = 'info') => {
+    (window as Window & { showToast?: (message: string, type?: ToastMessage['type']) => void }).showToast = (message: string, type: ToastMessage['type'] = 'info') => {
       const id = Date.now().toString();
       setToasts((prev) => [...prev, { id, message, type }]);
     };

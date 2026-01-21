@@ -8,6 +8,70 @@ import { EmptyState, EmptyIcon } from '@/components/shared/EmptyState';
 import { formatCurrency, formatDateTime, getOrderStatusColor, toTitleCase } from '@/lib/utils';
 import type { OrderStatus } from '@/lib/supabase';
 
+// Extract OrdersTable component outside of render
+function OrdersTable({ orders }: { orders: Awaited<ReturnType<typeof getUserOrders>> }) {
+  if (orders.length === 0) {
+    return (
+      <EmptyState
+        icon={<EmptyIcon />}
+        title="No orders found"
+        description="Orders matching this filter will appear here"
+      />
+    );
+  }
+
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Symbol</TableHead>
+          <TableHead>Side</TableHead>
+          <TableHead>Quantity</TableHead>
+          <TableHead>Type</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead>Price</TableHead>
+          <TableHead>Created</TableHead>
+          <TableHead>Confidence</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {orders.map((order) => (
+          <TableRow key={order.id}>
+            <TableCell className="font-semibold">{order.symbol}</TableCell>
+            <TableCell>
+              <Badge variant={order.side === 'buy' || order.side === 'cover' ? 'profit' : 'loss'}>
+                {toTitleCase(order.side)}
+              </Badge>
+            </TableCell>
+            <TableCell>{order.quantity}</TableCell>
+            <TableCell>{toTitleCase(order.order_type)}</TableCell>
+            <TableCell>
+              <Badge className={getOrderStatusColor(order.status)}>
+                {toTitleCase(order.status)}
+              </Badge>
+            </TableCell>
+            <TableCell>
+              {order.filled_price
+                ? formatCurrency(order.filled_price)
+                : order.limit_price
+                ? formatCurrency(order.limit_price)
+                : 'Market'}
+            </TableCell>
+            <TableCell className="text-sm text-gray-500">
+              {formatDateTime(order.created_at)}
+            </TableCell>
+            <TableCell>
+              {order.confidence_score
+                ? `${(order.confidence_score * 100).toFixed(0)}%`
+                : 'N/A'}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
+}
+
 export default async function OrdersPage() {
   const profile = await getUserProfile();
   
@@ -20,69 +84,6 @@ export default async function OrdersPage() {
   const filterByStatus = (status?: OrderStatus) => {
     if (!status) return allOrders;
     return allOrders.filter(o => o.status === status);
-  };
-
-  const OrdersTable = ({ orders }: { orders: typeof allOrders }) => {
-    if (orders.length === 0) {
-      return (
-        <EmptyState
-          icon={<EmptyIcon />}
-          title="No orders found"
-          description="Orders matching this filter will appear here"
-        />
-      );
-    }
-
-    return (
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Symbol</TableHead>
-            <TableHead>Side</TableHead>
-            <TableHead>Quantity</TableHead>
-            <TableHead>Type</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>Created</TableHead>
-            <TableHead>Confidence</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {orders.map((order) => (
-            <TableRow key={order.id}>
-              <TableCell className="font-semibold">{order.symbol}</TableCell>
-              <TableCell>
-                <Badge variant={order.side === 'buy' || order.side === 'cover' ? 'success' : 'danger'}>
-                  {toTitleCase(order.side)}
-                </Badge>
-              </TableCell>
-              <TableCell>{order.quantity}</TableCell>
-              <TableCell>{toTitleCase(order.order_type)}</TableCell>
-              <TableCell>
-                <Badge className={getOrderStatusColor(order.status)}>
-                  {toTitleCase(order.status)}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                {order.filled_price
-                  ? formatCurrency(order.filled_price)
-                  : order.limit_price
-                  ? formatCurrency(order.limit_price)
-                  : 'Market'}
-              </TableCell>
-              <TableCell className="text-sm text-gray-500">
-                {formatDateTime(order.created_at)}
-              </TableCell>
-              <TableCell>
-                {order.confidence_score
-                  ? `${(order.confidence_score * 100).toFixed(0)}%`
-                  : 'N/A'}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    );
   };
 
   const tabs = [

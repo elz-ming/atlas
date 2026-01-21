@@ -119,7 +119,7 @@ export async function getUserProfile(): Promise<Profile | null> {
     console.log('✅ Profile created successfully:', userId, email);
     return newProfile;
     
-  } catch (error: any) {
+  } catch (error) {
     console.error('❌ Error with profile:', error);
     
     // Last resort: try to fetch and update existing profile

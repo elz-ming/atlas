@@ -1,56 +1,68 @@
 # Atlas - AI-Powered Trading Platform
 
-[![Phase 1](https://img.shields.io/badge/Phase-1-blue)](https://github.com) [![Paper Trading](https://img.shields.io/badge/Trading-Paper%20Only-green)](https://github.com) [![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/)
+[![Phase 1](https://img.shields.io/badge/Phase-1-blue)](https://github.com) [![Paper Trading](https://img.shields.io/badge/Trading-Paper%20Only-green)](https://github.com) [![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org/) [![MooMoo](https://img.shields.io/badge/Powered%20by-MooMoo-orange)](https://moomoo.com/)
 
-Atlas is an AI-powered swing trading platform for US equities. This is the **Phase 1** implementation focusing on paper trading with a hard deadline of April 12, 2025.
+Atlas is an AI-powered swing trading platform for US equities with a beautiful MooMoo orange-themed design. This is the **Phase 1** implementation focusing on paper trading with a hard deadline of April 12, 2025.
+
+## 📚 Documentation
+
+**All detailed documentation is in the [`Knowledge/`](./Knowledge) folder!**
+
+- **[000_INDEX.md](./Knowledge/000_INDEX.md)** - Complete documentation index
+- **[001_SETUP.md](./Knowledge/001_SETUP.md)** - Setup and installation guide
+- **[002_QUICK_START.md](./Knowledge/002_QUICK_START.md)** - Quick start guide
+- **[003_DESIGN_SYSTEM.md](./Knowledge/003_DESIGN_SYSTEM.md)** - Design system reference (★ Use this!)
+- **[004_THEME_IMPLEMENTATION.md](./Knowledge/004_THEME_IMPLEMENTATION.md)** - Technical details
+- **[005_THEME_UPDATES_V2.md](./Knowledge/005_THEME_UPDATES_V2.md)** - Latest updates
+- **[006_PROJECT_SUMMARY.md](./Knowledge/006_PROJECT_SUMMARY.md)** - Project overview
 
 ## 🎯 Project Status
 
 **Phase 1 - Paper Trading Prototype** ✅ In Development
 
-- ✅ Authentication system (Clerk with Google OAuth)
+- ✅ Authentication system (Clerk with Google OAuth + JWT integration)
 - ✅ User profile management with role-based access
 - ✅ Trader dashboard with watchlists, orders, positions
 - ✅ Admin panel for user and order management
 - ✅ SuperAdmin controls for system-wide management
 - ✅ Database schema with Row Level Security
+- ✅ **Premium MooMoo orange theme with light/dark modes**
+- ✅ **Glass morphism UI with AI-focused design**
 - 🔄 AI agent integration (coming next)
 - 🔄 MooMoo broker connection (Phase 2)
 
 ## 🏗️ Tech Stack
 
-- **Frontend**: Next.js 14+ (App Router, TypeScript, Tailwind CSS)
-- **Authentication**: Clerk (Google OAuth only)
-- **Database**: Supabase (PostgreSQL)
+- **Frontend**: Next.js 16+ (App Router, TypeScript, Tailwind CSS v4)
+- **UI Components**: shadcn/ui with custom MooMoo orange theme
+- **Authentication**: Clerk (Google OAuth + JWT templates)
+- **Database**: Supabase (PostgreSQL with RLS)
+- **Styling**: Tailwind CSS v4, Lucide Icons, Glass morphism
+- **Theme**: next-themes (light/dark mode support)
 - **Deployment**: Vercel (recommended)
 
 ## 📋 Table of Contents
 
+- [Documentation](#-documentation)
 - [Quick Start](#-quick-start)
-- [Prerequisites](#-prerequisites)
-- [Installation](#-installation)
-- [Configuration](#️-configuration)
-- [Database Setup](#-database-setup)
-- [Development](#-development)
-- [Project Structure](#-project-structure)
+- [Design System](#-design-system)
+- [Tech Stack](#️-tech-stack)
 - [User Roles](#-user-roles)
 - [Features](#-features)
-- [Troubleshooting](#-troubleshooting)
-- [Deployment](#-deployment)
+- [Project Structure](#-project-structure)
+- [Development](#-development)
+
+**For detailed guides, see the [`Knowledge/`](./Knowledge) folder!**
 
 ## 🚀 Quick Start
 
 ```bash
-# Clone the repository
-git clone <your-repo-url>
-cd atlas
-
 # Install dependencies
 npm install
 
 # Copy environment template
 cp env.template .env.local
-# Edit .env.local with your actual keys
+# Edit .env.local with your Clerk and Supabase keys
 
 # Run development server
 npm run dev
@@ -58,178 +70,83 @@ npm run dev
 
 Visit [http://localhost:3000](http://localhost:3000)
 
-## 📦 Prerequisites
+**For complete setup instructions, see [Knowledge/001_SETUP.md](./Knowledge/001_SETUP.md)**
 
-- **Node.js** 18+ and npm
-- **Clerk Account** (free tier works)
-- **Supabase Account** (free tier works)
-- **Git** for version control
+## 🎨 Design System
 
-## 💻 Installation
+Atlas features a **premium MooMoo orange theme** with:
+- 🧡 **MooMoo Orange** (`#FF6B00`) as primary color
+- 🌓 **Beautiful light & dark modes**
+- ✨ **Glass morphism effects**
+- 🤖 **AI-focused design elements**
+- 💎 **Premium fintech aesthetic**
 
-### 1. Clone and Install
+**Component Showcase:** Visit `/showcase` to see all components in action!
 
-```bash
-git clone <your-repo-url>
-cd atlas
-npm install
-```
-
-### 2. Set Up Clerk Authentication
-
-1. Go to [https://dashboard.clerk.com/](https://dashboard.clerk.com/)
-2. Create a new application
-3. **Enable Google OAuth**:
-   - Navigate to **User & Authentication** > **Social Connections**
-   - Enable **Google**
-   - Configure OAuth consent screen in Google Cloud Console
-4. Get your API keys from **API Keys** section
-5. Set up webhook (see [Configuration](#️-configuration))
-
-### 3. Set Up Supabase Database
-
-1. Go to [https://supabase.com/dashboard](https://supabase.com/dashboard)
-2. Create a new project
-3. Wait for database to be ready (~2 minutes)
-4. Go to **Settings** > **API** and copy:
-   - Project URL
-   - `anon/public` key
-   - `service_role` key ⚠️ Keep this secret!
-5. Run the migration (see [Database Setup](#-database-setup))
-
-## ⚙️ Configuration
-
-### Environment Variables
-
-Copy `env.template` to `.env.local` and fill in your keys:
-
-```bash
-# Clerk Authentication
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
-CLERK_SECRET_KEY=sk_test_...
-CLERK_WEBHOOK_SECRET=whsec_...
-
-# Clerk Routes (use as is for local dev)
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
-NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
-
-# Supabase
-NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbG...
-SUPABASE_SERVICE_ROLE_KEY=eyJhbG...
-```
-
-### Clerk Webhook Setup
-
-The webhook syncs users from Clerk to Supabase automatically.
-
-1. In Clerk Dashboard, go to **Webhooks**
-2. Click **Add Endpoint**
-3. **Endpoint URL**: `https://yourdomain.com/api/webhooks/clerk`
-   - For local dev: Use ngrok or similar: `https://abc123.ngrok.io/api/webhooks/clerk`
-4. **Subscribe to events**:
-   - `user.created`
-   - `user.updated`
-   - `user.deleted`
-5. Copy the **Signing Secret** to `CLERK_WEBHOOK_SECRET` in `.env.local`
-
-## 🗄️ Database Setup
-
-### Run the Migration
-
-1. Open your Supabase Dashboard
-2. Go to **SQL Editor**
-3. Click **New Query**
-4. Copy the entire contents of `supabase/migrations/001_initial_schema.sql`
-5. Paste and click **Run** (or Cmd/Ctrl + Enter)
-6. Verify success message
-
-This creates:
-- ✅ All tables (profiles, orders, positions, etc.)
-- ✅ Row Level Security policies
-- ✅ Indexes for performance
-- ✅ Enums and types
-- ✅ Triggers for auto-updates
-
-See `supabase/README.md` for detailed database documentation.
+**For complete design documentation, see [Knowledge/003_DESIGN_SYSTEM.md](./Knowledge/003_DESIGN_SYSTEM.md)**
 
 ## 🛠️ Development
 
-### Run Development Server
-
 ```bash
+# Run development server
 npm run dev
-```
 
-Open [http://localhost:3000](http://localhost:3000)
-
-### Build for Production
-
-```bash
+# Build for production
 npm run build
+
+# Start production server
 npm start
-```
 
-### Linting
-
-```bash
+# Run linter
 npm run lint
 ```
+
+**For detailed setup and configuration, see:**
+- **[Knowledge/001_SETUP.md](./Knowledge/001_SETUP.md)** - Complete installation guide
+- **[Knowledge/002_QUICK_START.md](./Knowledge/002_QUICK_START.md)** - Quick start guide
 
 ## 📁 Project Structure
 
 ```
 atlas/
-├── app/                          # Next.js App Router pages
-│   ├── api/
-│   │   └── webhooks/
-│   │       └── clerk/           # Clerk webhook handler
-│   ├── dashboard/               # Trader pages (protected)
-│   │   ├── watchlist/
-│   │   ├── orders/
-│   │   ├── positions/
-│   │   └── settings/
-│   ├── admin/                   # Admin pages (admin+ only)
-│   │   ├── users/
-│   │   ├── orders/
-│   │   └── analytics/
-│   ├── superadmin/              # SuperAdmin pages (superadmin only)
-│   ├── layout.tsx               # Root layout with ClerkProvider
-│   └── page.tsx                 # Public landing page
+├── Knowledge/                   # 📚 Documentation folder
+│   ├── 000_INDEX.md            # Documentation index
+│   ├── 001_SETUP.md            # Setup guide
+│   ├── 002_QUICK_START.md      # Quick start
+│   ├── 003_DESIGN_SYSTEM.md    # Design system (★)
+│   ├── 004_THEME_IMPLEMENTATION.md
+│   ├── 005_THEME_UPDATES_V2.md
+│   └── 006_PROJECT_SUMMARY.md
+├── app/                        # Next.js App Router
+│   ├── api/webhooks/clerk/    # Clerk webhook
+│   ├── dashboard/             # Trader pages
+│   ├── admin/                 # Admin pages
+│   ├── superadmin/            # SuperAdmin pages
+│   ├── showcase/              # Component showcase
+│   ├── globals.css            # Tailwind v4 theme
+│   ├── layout.tsx             # Root layout
+│   └── page.tsx               # Landing page
 ├── src/
 │   ├── components/
-│   │   ├── ui/                  # Reusable UI primitives
+│   │   ├── ui/                # shadcn/ui components
 │   │   │   ├── button.tsx
 │   │   │   ├── card.tsx
 │   │   │   ├── badge.tsx
-│   │   │   ├── input.tsx
-│   │   │   ├── select.tsx
-│   │   │   ├── table.tsx
-│   │   │   ├── modal.tsx
-│   │   │   ├── tabs.tsx
-│   │   │   └── toast.tsx
-│   │   └── shared/              # Domain-specific components
-│   │       ├── Navbar.tsx
-│   │       ├── Sidebar.tsx
-│   │       ├── StatsCard.tsx
-│   │       ├── OrderCard.tsx
-│   │       ├── PositionCard.tsx
-│   │       ├── EmptyState.tsx
-│   │       ├── LoadingSpinner.tsx
-│   │       ├── EnvironmentBadge.tsx
-│   │       └── RoleBadge.tsx
-│   └── lib/                     # Core utilities
-│       ├── supabase.ts          # Database client & helpers
-│       ├── permissions.ts       # Role checking utilities
-│       └── utils.ts             # Formatting & styling helpers
+│   │   │   └── alert.tsx
+│   │   ├── shared/            # Shared components
+│   │   ├── theme-provider.tsx # Theme context
+│   │   └── theme-toggle.tsx   # Light/dark toggle
+│   └── lib/
+│       ├── supabase.ts        # DB client (JWT)
+│       ├── permissions.ts     # Role utilities
+│       └── utils.ts           # Helpers
 ├── supabase/
 │   ├── migrations/
-│   │   └── 001_initial_schema.sql
-│   └── README.md                # Database documentation
-├── env.template                 # Environment variables template
-└── README.md                    # This file
+│   │   └── 001_complete_schema_with_clerk_jwt.sql
+│   └── README.md
+├── proxy.ts                   # Clerk middleware
+├── env.template
+└── README.md                  # This file
 ```
 
 ## 👥 User Roles
@@ -309,102 +226,44 @@ Get the `clerk_id` from:
 
 ## 🐛 Troubleshooting
 
-### "Permission Denied" Errors
-
-**Problem**: Can't access data in Supabase
-
-**Solutions**:
-1. Check that the migration ran successfully
-2. Verify RLS policies are enabled
-3. Make sure you're using the correct Supabase client:
-   - Browser/Client Components: Use `supabase` (anon key)
-   - Server Components/API Routes: Use `supabaseAdmin` for admin operations
-
-### Clerk Webhook Not Working
-
-**Problem**: Users not created in Supabase after sign-up
-
-**Solutions**:
-1. Check webhook URL is correct (must be publicly accessible)
-2. Verify `CLERK_WEBHOOK_SECRET` in `.env.local`
-3. Check Clerk Dashboard > Webhooks > your endpoint for error logs
-4. For local dev, use ngrok or similar to expose localhost
-
-### "Cannot find module '@/...'"
-
-**Problem**: TypeScript can't resolve imports
-
-**Solutions**:
-1. Restart your Next.js dev server
-2. Check `tsconfig.json` has correct paths configuration
-3. Clear `.next` folder: `rm -rf .next && npm run dev`
-
-### Middleware Redirect Loops
-
-**Problem**: Infinite redirects when accessing protected routes
-
-**Solutions**:
-1. Clear cookies and try again
-2. Verify middleware.ts has correct public routes
-3. Check Clerk environment variables are set
-4. Sign out completely and sign back in
-
-### Database Connection Issues
-
-**Problem**: "Invalid API key" or connection errors
-
-**Solutions**:
-1. Verify all three Supabase keys are correct in `.env.local`
-2. Check project URL doesn't have trailing slash
-3. Restart dev server after changing `.env.local`
-4. Verify Supabase project is not paused (free tier auto-pauses after 7 days)
+**For troubleshooting guides, see:**
+- **[Knowledge/001_SETUP.md](./Knowledge/001_SETUP.md)** - Setup issues
+- **[Knowledge/002_QUICK_START.md](./Knowledge/002_QUICK_START.md)** - Common problems
 
 ## 🚢 Deployment
 
-### Recommended: Vercel
+**For deployment instructions, see [Knowledge/001_SETUP.md](./Knowledge/001_SETUP.md)**
 
-1. Push your code to GitHub
-2. Go to [vercel.com](https://vercel.com)
-3. Import your repository
-4. Add all environment variables from `.env.local`
-5. Deploy!
+Quick steps:
+1. Push to GitHub
+2. Deploy to Vercel
+3. Add environment variables
+4. Update Clerk webhook URL
 
-### Update Clerk Webhook
+## 📝 Key Highlights
 
-After deployment, update the webhook URL:
-1. Go to Clerk Dashboard > Webhooks
-2. Update endpoint URL to: `https://yourdomain.vercel.app/api/webhooks/clerk`
-3. Verify events are still subscribed
+### ✨ Premium Design
+- **MooMoo Orange Theme** - Professional fintech aesthetic
+- **Glass Morphism UI** - Depth and sophistication
+- **AI-Focused Elements** - Rotating glows, animations
+- **Light & Dark Modes** - Both look stunning
 
-### Environment Variables Checklist
+### 🔒 Security
+- Clerk JWT integration with Supabase RLS
+- Row Level Security on all tables
+- Role-based access control
+- Auto-profile creation with race condition handling
 
-Make sure these are set in Vercel:
-- ✅ All Clerk keys (NEXT_PUBLIC_CLERK_*, CLERK_*)
-- ✅ All Supabase keys (NEXT_PUBLIC_SUPABASE_*, SUPABASE_*)
-- ✅ Clerk redirect URLs updated to your domain
+### 🚀 Performance
+- React Server Components by default
+- Optimized database queries with indexes
+- Tailwind CSS v4 for faster builds
+- Next.js 16 with Turbopack
 
-## 📝 Important Notes
-
-### Phase 1 Limitations
-
-- **Paper Trading Only**: No real money, all trades simulated
-- **No Broker Connection**: MooMoo integration coming in Phase 2
-- **Mock Market Data**: Prices are placeholders
-- **No AI Reasoning**: Agent reasoning structures ready but not connected
-
-### Security Notes
-
-- ⚠️ **Never commit `.env.local`** to version control
-- ⚠️ **Never expose `SUPABASE_SERVICE_ROLE_KEY`** to the client
-- ⚠️ All admin operations use service role key (bypasses RLS)
-- ⚠️ Production: Enable Supabase's point-in-time recovery
-
-### Performance Notes
-
-- All pages use React Server Components by default
-- Client Components marked with `'use client'` directive
-- Database queries optimized with proper indexes
-- RLS policies ensure users only see their own data
+### 📚 Documentation
+- **Complete guides** in `Knowledge/` folder
+- **Component showcase** at `/showcase`
+- **Design system reference** for developers
 
 ## 🤝 Contributing
 
@@ -414,13 +273,22 @@ This is a thesis project with a hard deadline. External contributions are not ac
 
 Proprietary - All rights reserved for thesis purposes.
 
-## 🙋 Support
+## 📚 Learn More
 
-For issues or questions:
-1. Check this README and `supabase/README.md`
-2. Review error logs in Clerk Dashboard and Supabase
-3. Verify all environment variables are set correctly
+**Start here:**
+1. **[Knowledge/000_INDEX.md](./Knowledge/000_INDEX.md)** - Documentation index
+2. **[Knowledge/003_DESIGN_SYSTEM.md](./Knowledge/003_DESIGN_SYSTEM.md)** - Design system (must-read!)
+3. Visit `/showcase` in your browser - See all components in action
+
+**Useful links:**
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS v4](https://tailwindcss.com)
+- [shadcn/ui](https://ui.shadcn.com)
+- [Clerk Docs](https://clerk.com/docs)
+- [Supabase Docs](https://supabase.com/docs)
 
 ---
 
-**Built with ❤️ for the April 12, 2025 deadline**
+**Built with 🧡 for the April 12, 2025 deadline**
+
+**MooMoo Orange Theme • Premium Fintech UI • AI-Powered Trading**

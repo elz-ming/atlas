@@ -17,7 +17,7 @@ export function OrderCard({ order, onViewDetails }: OrderCardProps) {
             <div className="flex items-center gap-2 mb-1">
               <span className="text-lg font-bold text-gray-900">{order.symbol}</span>
               <Badge
-                variant={order.side === 'buy' || order.side === 'cover' ? 'success' : 'danger'}
+                variant={order.side === 'buy' || order.side === 'cover' ? 'profit' : 'loss'}
               >
                 {toTitleCase(order.side)}
               </Badge>
