@@ -77,6 +77,50 @@ export interface ToastMessage {
   type?: 'success' | 'error' | 'info' | 'warning';
 }
 
+// Toast Context and Hook
+interface ToastContextType {
+  showToast: (options: { title: string; description?: string; variant?: 'default' | 'destructive' }) => void;
+}
+
+const ToastContext = React.createContext<ToastContextType | undefined>(undefined);
+
+export function ToastProvider({ children }: { children: React.ReactNode }) {
+  const [toasts, setToasts] = React.useState<(ToastMessage & { title: string; description?: string })[]>([]);
+
+  const removeToast = (id: string) => {
+    setToasts((prev) => prev.filter((toast) => toast.id !== id));
+  };
+
+  const showToast = React.useCallback((options: { title: string; description?: string; variant?: 'default' | 'destructive' }) => {
+    const id = Date.now().toString();
+    const type = options.variant === 'destructive' ? 'error' : 'success';
+    const message = options.description ? `${options.title}: ${options.description}` : options.title;
+    setToasts((prev) => [...prev, { id, message, type, title: options.title, description: options.description }]);
+  }, []);
+
+  return (
+    <ToastContext.Provider value={{ showToast }}>
+      {children}
+      {toasts.map((toast) => (
+        <Toast
+          key={toast.id}
+          message={toast.message}
+          type={toast.type}
+          onClose={() => removeToast(toast.id)}
+        />
+      ))}
+    </ToastContext.Provider>
+  );
+}
+
+export function useToast() {
+  const context = React.useContext(ToastContext);
+  if (!context) {
+    throw new Error('useToast must be used within ToastProvider');
+  }
+  return context;
+}
+
 export function ToastContainer() {
   const [toasts, setToasts] = React.useState<ToastMessage[]>([]);
 

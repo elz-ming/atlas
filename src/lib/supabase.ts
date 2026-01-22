@@ -47,6 +47,11 @@ export const supabaseAdmin = createClient(
   }
 );
 
+// Function wrapper for supabaseAdmin (for consistency with API routes)
+export function getSupabaseAdmin() {
+  return supabaseAdmin;
+}
+
 // ============================================
 // TYPESCRIPT INTERFACES
 // ============================================
@@ -124,6 +129,13 @@ export interface Order {
   filled_at: string | null;
   agent_reasoning: AgentReasoning | null;
   confidence_score: number | null;
+  // NEW: Agent-related fields from migration 002
+  agent_run_id: string | null;
+  reasoning_summary: string | null;
+  evidence_links: string[] | null;
+  proposed_at: string | null;
+  approved_at: string | null;
+  approved_by: string | null;
   created_at: string;
   updated_at: string;
 }

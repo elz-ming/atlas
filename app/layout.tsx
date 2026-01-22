@@ -30,12 +30,14 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body
           className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
+          suppressHydrationWarning
         >
           <ThemeProvider
             attribute="class"
             defaultTheme="light"
             enableSystem={false}
             storageKey="atlas-theme"
+            disableTransitionOnChange
           >
             <div className="bg-premium min-h-screen">
               {children}

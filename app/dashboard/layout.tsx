@@ -5,6 +5,7 @@ import { getUserProfile } from '@/lib/permissions';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Badge } from '@/components/ui/badge';
 import { LayoutDashboard, List, TrendingUp, Settings, FileText, TrendingDown } from 'lucide-react';
+import { ToastProvider } from '@/components/ui/toast';
 
 export default async function DashboardLayout({
   children,
@@ -26,9 +27,10 @@ export default async function DashboardLayout({
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Top Navigation */}
-      <nav className="glass border-b sticky top-0 z-40">
+    <ToastProvider>
+      <div className="min-h-screen bg-background">
+        {/* Top Navigation */}
+        <nav className="glass border-b sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             {/* Left: Logo and Links */}
@@ -85,11 +87,12 @@ export default async function DashboardLayout({
         </div>
       </nav>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {children}
-      </main>
-    </div>
+        {/* Main Content */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {children}
+        </main>
+      </div>
+    </ToastProvider>
   );
 }
 
